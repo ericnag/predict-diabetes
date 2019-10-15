@@ -1,0 +1,1 @@
+base = csvread("base_diabetes.csv");

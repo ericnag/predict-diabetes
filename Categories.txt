@@ -1,0 +1,8 @@
+NGravidez
+Glicose
+PressaoSanguinea
+EspessuraPele
+Insulina
+IMC
+Idade
+TemDiabetes
