@@ -1,10 +1,16 @@
+#Limpa janela de comandos
+clc
+
 #Carrega a base
 carregar_base
 
-tamanhoBase = size(base); #Pega o n° de linhas e n° colunas
-base = sortrows(base, tamanhoBase(2)); #Ordena a base baseado na última coluna
+#Normalizar base
+base = normalizacaoLinear(base);
 
-#Le as informações do paciente e guarda em um vetor
+tamanhoBase = size(base); #Pega o nï¿½ de linhas e nï¿½ colunas
+base = sortrows(base, tamanhoBase(2)); #Ordena a base baseado na ï¿½ltima coluna
+
+#Le as informaï¿½ï¿½es do paciente e guarda em um vetor
 X = infoPaciente();
 
 if ((ans = knn(base, X, 9)) == 0)
@@ -13,6 +19,6 @@ else
   disp("De acordo com a base de dados, eh diabetico.");
 endif
 
-#Plotando o dado informado no gráfico
+#Plotando o dado informado no grï¿½fico
 plot(X(:,2), X(:,5), 'g+');
 hold off
