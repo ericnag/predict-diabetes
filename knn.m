@@ -1,49 +1,27 @@
-function [classe] = knn(base, objeto, k)
-  tamanhoBase = size(base);
+function [rotuloPredito] = knn(base, k, Objeto)
   
-  classe1 = base(1:500, :); #Os 500 primeiros nao sao diabeticos
-  classe2 = base(501:768, :); 
+  ## Cria vetor de rotulos
+  rotulos = base(:, 8);
   
-  #Fazendo o plot com a base de dados
-  hold on
-  plot(classe1(:,2), classe1(:,5), 'b*') #Classe 1(Azul) -> Nao diabetico
-  plot(classe2(:,2), classe2(:,5), 'r*') #Classe 2(Vermelho) -> Diabetico
+  ## Remove ultima coluna que Ã© o rotulo
+  base = eye(8); 
+  base(:,[8]) = []; 
+  disp(base)
   
-  vetorDist = [];
- 
-  #Pega todas as distâncias e guarda em vetorDist
-  for i = 1:tamanhoBase(1)
-    vetorDist(i) = DISTEUCLIDIANA(base(i), objeto);
-  endfor
+  [totObj, ~] = size(base);
   
-  #Distâncias com rótulos
-  distRotulos = [vetorDist(:), base(:, tamanhoBase(2))];
-  ordenado = sortrows(distRotulos);
+  for i=1:totObj
+    d(i) = DISTEUCLIDIANA(base(i,:), Objeto);
+  end
   
-  #Pega K linhas com as menores distâncias e seus rótulos
-  resultado = ordenado(1:k, :);
-  tamanhoResultado = size(resultado);
-   
-  if k == 1
-    classe = resultado(:, tamanhoResultado(2)); 
-  else
-    rotulos = resultado(:, tamanhoResultado(2));
-    rotulo1 = 0;
-    rotulo2 = 0;
-      
-    for i = 1:tamanhoResultado(1)
-     if rotulos(i) == 0
-       rotulo1++;
-     else
-       rotulo2++;
-     endif
-    endfor 
-   
-    if rotulo1 > rotulo2
-      classe = 0;
-    else
-      classe = 1;
-    endif
-  endif
+  [Val, id] = sort(d);
+  
+  idObj = id(1:k);
+  
+  rotuloPredito = mode(rotulos(idObj));
+  
+  vizinhosProximos = base(idObj,:);
+  
+  plot(base(:,1), base(:,2), 'b*', vizinhosProximos(:,1), vizinhosProximos(:,2), 'r*', Objeto(:, 1), Objeto(:, 2), 'm*');
   
 endfunction
