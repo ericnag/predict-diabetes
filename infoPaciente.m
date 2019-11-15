@@ -6,5 +6,5 @@ function [paciente] = infoPaciente()
   insulina = input("Insulina: ");
   imc = input("IMC: ");
   idade = input("Idade: ");
-  paciente = [n_gravidez, glicose, p_sanguinea, e_pele, insulina, imc, idade];
+  paciente = [n_gravidez, glicose, p_sanguinea, e_pele, insulina, imc, idade, -1];
 endfunction
