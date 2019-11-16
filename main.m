@@ -28,8 +28,11 @@ else
  disp("Resultado: NEGATIVO\n");
 endif
 
-disp("---------- TESTE USANDO DADOS DA PRÓPRIA BASE ----------");
+disp("---------- TESTE UTILIZANDO 60% DOS DADOS DA PRÓPRIA BASE ----------");
 
-n = input("\nDigite a quantia de dados da base que você deseja testar com o knn\
-(1 a 768): ");
-testeResultado(base, n, k);
+for k = 2:6
+  testeResultado(base, 730, k); ##768*(60/100) =~ 460 -> 60% da base
+                                ##460/2 = 230
+                                ##500-230 = 270
+                                ##500+230 = 730
+endfor
