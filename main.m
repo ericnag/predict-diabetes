@@ -1,24 +1,38 @@
-#Limpa janela de comandos
-clc
+## Limpa janela de comandos.
+clc;
+## Carrega a base.
+carregar_base;
+tamanhoBase = size(base); ## Pega o numero de linhas e numero de colunas.
+base = sortrows(base, 8); ## Ordena a base baseado na ultima coluna.
+rotulos = base(:, 8);
 
-#Carrega a base
-carregar_base
+disp("---------- TESTE INDIVIDUAL ----------\n");
 
-#Normalizar base
-base = normalizacaoLinear(base);
+## Le as informacoes do paciente e guarda em um vetor.
+paciente = infoPaciente();
 
-tamanhoBase = size(base); #Pega o n� de linhas e n� colunas
-base = sortrows(base, tamanhoBase(2)); #Ordena a base baseado na �ltima coluna
+## Junta os dados do paciente com a base para normalizar
+## Depois retira os dados do paciente para jogar na funcao KNN
+base = [base; paciente];
+base = normalizacaoLinear(base(:, 1:7));
+paciente = base(769, 1:7);
+base = [base(1:768,:), rotulos];
 
-#Le as informa��es do paciente e guarda em um vetor
-X = infoPaciente();
+k = input("Digite o valor de k: ");
 
-if ((ans = knn(base, X, 9)) == 0)
-  disp("De acordo com a base de dados, nao eh diabetico.");
+## Chama a funcao KNN passando a base, as informacoes
+
+if ((ans = knn(base, paciente, k)) == 1) ##base(769, 1:7): dados do paciente
+  disp("Resultado: POSITIVO\n");
 else
-  disp("De acordo com a base de dados, eh diabetico.");
+ disp("Resultado: NEGATIVO\n");
 endif
 
-#Plotando o dado informado no gr�fico
-plot(X(:,2), X(:,5), 'g+');
-hold off
+disp("---------- TESTE UTILIZANDO 60% DOS DADOS DA PRÓPRIA BASE ----------");
+
+for k = 2:6
+  testeResultado(base, 730, k); ##768*(60/100) =~ 460 -> 60% da base
+                                ##460/2 = 230
+                                ##500-230 = 270
+                                ##500+230 = 730
+endfor
